@@ -1,0 +1,11 @@
+jobs:
+  - deployment: helm
+    displayName: helm upgrade microservices
+    pool: devops-npd
+    environment: test
+    strategy:                  
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - template: helm-upgrade-tmpl.yml

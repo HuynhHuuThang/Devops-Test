@@ -1,0 +1,17 @@
+steps:
+  - task: HelmDeploy@0
+    displayName: 'helm upgrade'
+    inputs:
+      connectionType: 'Azure Resource Manager'
+      azureSubscription: 'HuynhHuuThangConnection'
+      azureResourceGroup: 'aks-dev'
+      kubernetesCluster: 'aks'
+      useClusterAdmin: true
+      namespace: default
+      command: upgrade
+      chartType: FilePath
+      chartPath: 'infrastructure/k8s'
+      releaseName: 'test'
+      waitForExecution: false
+      overrideValues: |
+        version="3.3.3"
