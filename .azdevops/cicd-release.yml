@@ -6,9 +6,9 @@
 #     include:
 #     - prod
 
-variables:
-- name: test
-  value: "3.3.3"
+# variables:
+# - name: test
+#   value: "3.3.3"
 
 
 stages:
