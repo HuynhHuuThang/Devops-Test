@@ -25,12 +25,12 @@ spec:
         - containerPort: 6379
           name: redis {% endcomment %}
 
-{% comment %} {{- if .Values.autoscaling.enabled }} {% endcomment %}
+{{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Chart.Name }}-hpa
-  namespace: {{ .Release.Namespace }}
+  name: test-hpa
+  namespace: default
   labels:
     app: {{ .Chart.Name }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -69,4 +69,4 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage | default 80 }}
 ---
-{% comment %} {{- end }} {% endcomment %}
+{{- end }}
