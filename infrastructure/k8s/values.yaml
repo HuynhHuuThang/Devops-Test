@@ -1,1 +1,2 @@
 version: $VERSIONVALUE
+autoscaling.enabled: true
