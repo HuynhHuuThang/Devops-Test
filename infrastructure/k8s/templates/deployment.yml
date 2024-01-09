@@ -1,43 +1,16 @@
-{% comment %} apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: azure-vote-back
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: azure-vote-back
-  template:
-    metadata:
-      labels:
-        app: azure-vote-back
-        version: "{{ $.Values.version }}"
-    spec:
-      nodeSelector:
-        "kubernetes.io/os": linux
-      containers:
-      - name: azure-vote-back
-        image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
-        env:
-        - name: ALLOW_EMPTY_PASSWORD
-          value: "yes"
-        ports:
-        - containerPort: 6379
-          name: redis {% endcomment %}
-
 {{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: test-hpa
-  namespace: default
+  name: {{ .Chart.Name }}-hpa
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Chart.Name }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     version: {{ .Chart.Version }}
-  
+ 
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
