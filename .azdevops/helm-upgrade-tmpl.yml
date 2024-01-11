@@ -5,7 +5,7 @@ steps:
       connectionType: 'Azure Resource Manager'
       azureSubscription: 'HuynhHuuThangConnection'
       azureResourceGroup: 'aks-dev'
-      kubernetesCluster: 'aks'
+      kubernetesCluster: 'aks1'
       useClusterAdmin: true
       namespace: default
       command: upgrade
