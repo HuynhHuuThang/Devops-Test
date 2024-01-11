@@ -51,7 +51,7 @@ stages:
           inlineScript: |
             az login --service-principal -u $servicePrincipalId -p $servicePrincipalKey --tenant $tenantId
             az account set --subscription 508d78f4-b324-4fd2-8c65-97a16b34c52b
-            az aks get-credentials -g aks-dev -n aks1
+            az aks get-credentials -g aks-dev -n aks1 --overwrite-existing
           addSpnToEnvironment: true
         displayName: Login test
 
