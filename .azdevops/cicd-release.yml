@@ -98,7 +98,7 @@ stages:
       #     echo "Secrets are not automatically mapped in, secretSauce is $SECRETSAUCE"
       #     echo "You can use macro replacement to get secrets, and they'll be masked in the log: $(secretSauce)"
   - job:
-    pool: devops-npd
+    pool: npd-agent-pool
     steps:
       - bash: |
           ls
@@ -108,7 +108,7 @@ stages:
         displayName: Version
   - template: job-helm-upgrade-tmpl.yml
     parameters:
-      pool: devops-npd
+      pool: npd-agent-pool
       env: test
       version: $VERSIONVALUE
 
