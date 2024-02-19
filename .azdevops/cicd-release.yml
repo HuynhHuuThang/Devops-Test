@@ -1,8 +1,8 @@
 # name: cicd-release-prod
 
-pr: none
-trigger:
-  none
+# pr: none
+# trigger:
+#   none
 
 # variables:
 # - name: test
@@ -13,9 +13,9 @@ stages:
 - stage:
   displayName: Init
   jobs:
-  - job: 
-    pool: npd-agent-pool
-    steps:
+  # - job: 
+  #   pool: npd-agent-pool
+  #   steps:
     # - task: Bash@3
     #   inputs:
     #     targetType: 'inline'
