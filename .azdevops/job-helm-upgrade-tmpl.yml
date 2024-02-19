@@ -1,7 +1,7 @@
 jobs:
   - deployment: helm
     displayName: helm upgrade microservices
-    pool: devops-npd
+    pool: npd-agent-pool
     environment: test
     strategy:                  
       runOnce:
