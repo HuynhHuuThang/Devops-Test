@@ -16,105 +16,105 @@ stages:
   - job: 
     pool: npd-agent-pool
     steps:
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo Hello World 
-      displayName: test npd-agent-pool
     # - task: Bash@3
     #   inputs:
     #     targetType: 'inline'
     #     script: |
-    #       sudo apt-get update
-    #       sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg -y
-    #       sudo mkdir -p /etc/apt/keyrings
-    #       curl -sLS https://packages.microsoft.com/keys/microsoft.asc |
-    #           gpg --dearmor |
-    #           sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
-    #       sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
-    #       AZ_DIST=$(lsb_release -cs)
-    #       echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" |
-    #           sudo tee /etc/apt/sources.list.d/azure-cli.list
-    #       sudo apt-get update
-    #       sudo apt-get install azure-cli -y
-    #   displayName: Install Tool
+    #       echo Hello World 
+    #   displayName: test npd-agent-pool
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo apt-get update
+          sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg -y
+          sudo mkdir -p /etc/apt/keyrings
+          curl -sLS https://packages.microsoft.com/keys/microsoft.asc |
+              gpg --dearmor |
+              sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
+          sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
+          AZ_DIST=$(lsb_release -cs)
+          echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" |
+              sudo tee /etc/apt/sources.list.d/azure-cli.list
+          sudo apt-get update
+          sudo apt-get install azure-cli -y
+      displayName: Install Tool
         
-#     - task: KubectlInstaller@0
-#       inputs:
-#         kubectlVersion: 'latest'
-#     - task: HelmInstaller@0
-#       inputs:
-#         helmVersion: '2.14.1'
-#         installKubectl: true
-#   - job: 
-#     pool: npd-agent-pool
-#     steps:
-#       - task: AzureCLI@2
-#         inputs:
-#           azureSubscription: 'HuynhHuuThangConnection'
-#           scriptType: 'bash'
-#           scriptLocation: 'inlineScript'
-#           inlineScript: |
-#             az login --service-principal -u $servicePrincipalId -p $servicePrincipalKey --tenant $tenantId
-#             az account set --subscription 508d78f4-b324-4fd2-8c65-97a16b34c52b
-#             az aks get-credentials -g AKS -n aks --admin --overwrite-existing
-#           addSpnToEnvironment: true
-#         displayName: Login test
+    - task: KubectlInstaller@0
+      inputs:
+        kubectlVersion: 'latest'
+    - task: HelmInstaller@0
+      inputs:
+        helmVersion: '2.14.1'
+        installKubectl: true
+  - job: 
+    pool: npd-agent-pool
+    steps:
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'HuynhHuuThangConnection'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az login --service-principal -u $servicePrincipalId -p $servicePrincipalKey --tenant $tenantId
+            az account set --subscription 508d78f4-b324-4fd2-8c65-97a16b34c52b
+            az aks get-credentials -g AKS -n aks --admin --overwrite-existing
+          addSpnToEnvironment: true
+        displayName: Login test
 
-# - stage: deployTest
-#   displayName: Deploy Test
-#   # dependsOn: transferImages
-#   variables:
-#     - group: AKS
-#   jobs:
-#   # - job:
-#   #   pool: devops-npd
-#   #   steps:
-#       # - script: |
-#       #     chmod +x ./version.sh
-#       #   displayName: Enabel script permission
-#       # - task: Bash@3
-#       #   inputs:
-#       #     filePath: "version.sh"
-#       #     arguments: ""
-#         # displayName: "Run Script"
-#       # - task: Bash@3
-#       #   inputs:
-#       #     targetType: 'inline'
-#       #     script: |
-#             # ls
-#             # cat package.json
-#             # jq -r '.version' package.json
-#             # value=$(jq -r '.version' package.json)
-#             # echo "##vso[task.setvariable variable=versionValue;isOutput=true]test"
-#             # echo $VERSIONVALUE
-#             # echo "hi"
-#       #   displayName: 'Use Version Value'
-#       # - bash: |
-#       #     echo "version is $VERSIONVALUE"
-#       #     echo "##vso[task.setvariable variable=sauce;]crushed tomatoes"
-#       #     echo "##vso[task.setvariable variable=secretSauce;issecret=true]crushed tomatoes with garlic"
-#       #     echo "##vso[task.setvariable variable=outputSauce;isoutput=true]canned goods"
-#       #     echo "test is $SAUCE"
-#       #   name: SetVars
-#       # - bash: |
-#       #     echo "version is $VERSIONVALUE"
-#       #     echo "Non-secrets automatically mapped in, sauce is $SAUCE"
-#       #     echo "Secrets are not automatically mapped in, secretSauce is $SECRETSAUCE"
-#       #     echo "You can use macro replacement to get secrets, and they'll be masked in the log: $(secretSauce)"
-#   - job:
-#     pool: npd-agent-pool
-#     steps:
-#       - bash: |
-#           ls
-#           # jq -r '.version' package.json
-#           value=$(jq -r '.version' package.json)
-#           echo "##vso[task.setvariable variable=versionValue]$value"
-#         displayName: Version
-#   - template: job-helm-upgrade-tmpl.yml
-#     parameters:
-#       pool: npd-agent-pool
-#       env: test
-#       version: $VERSIONVALUE
+- stage: deployTest
+  displayName: Deploy Test
+  # dependsOn: transferImages
+  variables:
+    - group: AKS
+  jobs:
+  # - job:
+  #   pool: npd-agent-pool
+  #   steps:
+      # - script: |
+      #     chmod +x ./version.sh
+      #   displayName: Enabel script permission
+      # - task: Bash@3
+      #   inputs:
+      #     filePath: "version.sh"
+      #     arguments: ""
+        # displayName: "Run Script"
+      # - task: Bash@3
+      #   inputs:
+      #     targetType: 'inline'
+      #     script: |
+            # ls
+            # cat package.json
+            # jq -r '.version' package.json
+            # value=$(jq -r '.version' package.json)
+            # echo "##vso[task.setvariable variable=versionValue;isOutput=true]test"
+            # echo $VERSIONVALUE
+            # echo "hi"
+      #   displayName: 'Use Version Value'
+      # - bash: |
+      #     echo "version is $VERSIONVALUE"
+      #     echo "##vso[task.setvariable variable=sauce;]crushed tomatoes"
+      #     echo "##vso[task.setvariable variable=secretSauce;issecret=true]crushed tomatoes with garlic"
+      #     echo "##vso[task.setvariable variable=outputSauce;isoutput=true]canned goods"
+      #     echo "test is $SAUCE"
+      #   name: SetVars
+      # - bash: |
+      #     echo "version is $VERSIONVALUE"
+      #     echo "Non-secrets automatically mapped in, sauce is $SAUCE"
+      #     echo "Secrets are not automatically mapped in, secretSauce is $SECRETSAUCE"
+      #     echo "You can use macro replacement to get secrets, and they'll be masked in the log: $(secretSauce)"
+  - job:
+    pool: npd-agent-pool
+    steps:
+      - bash: |
+          ls
+          # jq -r '.version' package.json
+          value=$(jq -r '.version' package.json)
+          echo "##vso[task.setvariable variable=versionValue]$value"
+        displayName: Version
+  - template: job-helm-upgrade-tmpl.yml
+    parameters:
+      pool: npd-agent-pool
+      env: test
+      version: $VERSIONVALUE
 
